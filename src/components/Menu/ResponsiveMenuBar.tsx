@@ -11,8 +11,10 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppConfigContext } from "../../appConfig";
+import SummarizeOutlinedIcon from "@mui/icons-material/SummarizeOutlined";
 
 interface PagesDictionary {
   [key: string]: string;
@@ -34,6 +36,7 @@ function ResponsiveMenuBar() {
     null
   );
   const navigate = useNavigate();
+  const config = useContext(AppConfigContext);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -43,7 +46,6 @@ function ResponsiveMenuBar() {
   };
 
   const handleCloseNavMenu = (page: string) => {
-    // setSelectedPage(page);
     navigate(page);
   };
 
@@ -53,26 +55,32 @@ function ResponsiveMenuBar() {
 
   return (
     <AppBar position="static">
-      <Container sx={{ width: "95%" }}>
+      <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+          <span
+            style={{ display: "flex", alignItems: "center" }}
+            onClick={() => handleCloseNavMenu("Home")}
           >
-            LOGO
-          </Typography>
+            <SummarizeOutlinedIcon
+              sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              {config.siteName}
+            </Typography>
+          </span>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -106,32 +114,36 @@ function ResponsiveMenuBar() {
               {Object.keys(pagesDictionary).map((key) => (
                 <MenuItem key={key} onClick={() => handleCloseNavMenu(key)}>
                   <Link to={key}>
-                  <Typography textAlign="center">
-                    {pagesDictionary[key]}
-                  </Typography></Link>
+                    <Typography textAlign="center">
+                      {pagesDictionary[key]}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+          <span onClick={() => handleCloseNavMenu("Home")}>
+            <SummarizeOutlinedIcon
+              sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+            />
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              {config.siteName}
+            </Typography>
+          </span>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {Object.keys(pagesDictionary).map((key) => (
               <Button
